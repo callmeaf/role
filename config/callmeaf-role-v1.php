@@ -184,4 +184,17 @@ return [
             'facade' => \Callmeaf\Role\App\Facades\RoleFacade::class,
         ],
     ],
+    'users_seeder' => [
+        \Callmeaf\Role\App\Enums\RoleName::SUPER_ADMIN->value => [
+            [
+                'email' => env('SUPER_ADMIN_EMAIL','superadmin@gmail.com'),
+                'password' =>  env('SUPER_ADMIN_PASSWORD','superadmin@1234')
+            ]
+        ],
+        \Callmeaf\Role\App\Enums\RoleName::ADMIN->value => [
+        ],
+        \Callmeaf\Role\App\Enums\RoleName::USER->value => [
+
+        ],
+    ],
 ];

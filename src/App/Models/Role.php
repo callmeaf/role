@@ -40,4 +40,5 @@ class Role extends \Spatie\Permission\Models\Role implements BaseConfigurable
             return $enumTranslate;
         });
     }
+
 }

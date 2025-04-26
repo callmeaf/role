@@ -11,8 +11,10 @@ use Callmeaf\Base\Contracts\ServiceProvider\HasMigration;
 use Callmeaf\Base\Contracts\ServiceProvider\HasRepo;
 use Callmeaf\Base\Contracts\ServiceProvider\HasRoute;
 use Callmeaf\Base\Contracts\ServiceProvider\HasSeeder;
+use Callmeaf\Role\App\Enums\RoleName;
 use Callmeaf\Role\App\Repo\Contracts\RoleRepoInterface;
 use Callmeaf\Role\App\Seeders\RoleSeeder;
+use Illuminate\Support\Facades\Gate;
 
 class CallmeafRoleServiceProvider extends CallmeafServiceProvider implements HasRepo, HasEvent, HasRoute, HasMigration, HasConfig, HasLang,HasFacade,HasSeeder
 {
@@ -31,5 +33,16 @@ class CallmeafRoleServiceProvider extends CallmeafServiceProvider implements Has
         return [
             RoleSeeder::class,
         ];
+    }
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        // Implicitly grant "Super Admin" role all permissions
+        // This works in the app by using gate-related functions like auth()->user->can() and @can()
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole(RoleName::SUPER_ADMIN->value) ? true : null;
+        });
     }
 }

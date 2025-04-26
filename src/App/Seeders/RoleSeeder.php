@@ -3,6 +3,7 @@
 namespace Callmeaf\Role\App\Seeders;
 
 use Callmeaf\Role\App\Repo\Contracts\RoleRepoInterface;
+use Callmeaf\User\App\Repo\Contracts\UserRepoInterface;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -17,14 +18,36 @@ class RoleSeeder extends Seeder
          */
         $roleRepo = app(RoleRepoInterface::class);
 
-        foreach (\Rol::defaultRoles() as $defaultRole) {
+        $defaultRoles = \Rol::defaultRoles();
+        foreach ($defaultRoles as $defaultRole) {
             $roleRepo->freshQuery();
 
-            $permissions = $defaultRole['permissions'];
-            unset($defaultRole['permissions']);
+            $role = $roleRepo->create([
+                'name' => $defaultRole['name'],
+                'name_fa' => @$defaultRole['name_fa'],
+            ]);
+            $role->resource->syncPermissions($defaultRole['permissions'] ?? []);
+        }
 
-            $role = $roleRepo->create($defaultRole);
-            $role->resource->syncPermissions($permissions);
+        /**
+         * @var UserRepoInterface $userRepo
+         */
+        $userRepo = app(UserRepoInterface::class);
+
+        $usersSeeder = $roleRepo->config['users_seeder'];
+        foreach ($defaultRoles as $defaultRole) {
+            $roleName = $defaultRole['name'];
+            $usersData = $usersSeeder[$roleName] ?? [];
+            if(empty($usersData)) {
+                continue;
+            }
+
+            foreach ($usersData as $userData) {
+                $userRepo->freshQuery();
+                $user = $userRepo->create($userData);
+
+                $user->resource->assignRole($roleName);
+            }
         }
     }
 }
