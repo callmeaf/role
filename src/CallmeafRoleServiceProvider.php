@@ -6,6 +6,7 @@ use Callmeaf\Base\CallmeafServiceProvider;
 use Callmeaf\Base\Contracts\ServiceProvider\HasConfig;
 use Callmeaf\Base\Contracts\ServiceProvider\HasEvent;
 use Callmeaf\Base\Contracts\ServiceProvider\HasFacade;
+use Callmeaf\Base\Contracts\ServiceProvider\HasHelpers;
 use Callmeaf\Base\Contracts\ServiceProvider\HasLang;
 use Callmeaf\Base\Contracts\ServiceProvider\HasMigration;
 use Callmeaf\Base\Contracts\ServiceProvider\HasRepo;
@@ -16,7 +17,7 @@ use Callmeaf\Role\App\Repo\Contracts\RoleRepoInterface;
 use Callmeaf\Role\App\Seeders\RoleSeeder;
 use Illuminate\Support\Facades\Gate;
 
-class CallmeafRoleServiceProvider extends CallmeafServiceProvider implements HasRepo, HasEvent, HasRoute, HasMigration, HasConfig, HasLang,HasFacade,HasSeeder
+class CallmeafRoleServiceProvider extends CallmeafServiceProvider implements HasRepo, HasEvent, HasRoute, HasMigration, HasConfig, HasLang,HasFacade,HasSeeder,HasHelpers
 {
     protected function serviceKey(): string
     {
@@ -32,6 +33,13 @@ class CallmeafRoleServiceProvider extends CallmeafServiceProvider implements Has
     {
         return [
             RoleSeeder::class,
+        ];
+    }
+
+    public function helpers(): array
+    {
+        return [
+            '/helpers.php'
         ];
     }
 
