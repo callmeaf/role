@@ -2,7 +2,9 @@
 
 namespace Callmeaf\Role\App\Http\Requests\Admin\V1;
 
+use Callmeaf\Role\App\Repo\Contracts\RoleRepoInterface;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RoleUpdateRequest extends FormRequest
 {
@@ -19,10 +21,11 @@ class RoleUpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(RoleRepoInterface $roleRepo): array
     {
         return [
-            //
+            'name' => ['required','string','max:255',Rule::unique($roleRepo->getTable(),'name')->ignore($this->route('role'))],
+            'name_fa' => ['required','string','max:255',Rule::unique($roleRepo->getTable(),'name_fa')->ignore($this->route('role'))],
         ];
     }
 }
