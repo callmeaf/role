@@ -12,5 +12,10 @@ use Callmeaf\Role\App\Http\Resources\Api\V1\RoleResource;
  */
 interface RoleRepoInterface extends BaseRepoInterface
 {
+    /**
+     * @param mixed $id
+     * @param array $permissionsIds
+     * @return \Callmeaf\Role\App\Http\Resources\Admin\V1\RoleResource
+     */
     public function syncPermissions(mixed $id,array $permissionsIds);
 }
