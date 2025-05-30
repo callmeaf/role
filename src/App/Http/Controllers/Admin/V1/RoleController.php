@@ -89,6 +89,6 @@ class RoleController extends AdminController implements HasMiddleware
 
     public function syncPermissions(string $id)
     {
-        return $this->roleRepo->syncPermissions(id: $id,permissionsIds: $this->request->get('permissions_ids'));
+        return $this->roleRepo->syncPermissions(id: $id,permissionsIds: $this->request->get('permissions_ids') ?? []);
     }
 }

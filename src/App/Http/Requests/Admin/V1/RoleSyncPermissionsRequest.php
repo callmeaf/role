@@ -24,7 +24,7 @@ class RoleSyncPermissionsRequest extends FormRequest
     public function rules(PermissionRepoInterface $permissionRepo): array
     {
         return [
-            'permissions_ids' => ['required','array'],
+            'permissions_ids' => ['nullable','array'],
             'permissions_ids.*' => ['required',Rule::exists($permissionRepo->getTable(),$permissionRepo->getModel()->getKeyName())],
         ];
     }
