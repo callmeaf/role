@@ -137,12 +137,16 @@ return [
         RequestType::API->value => [
             'prefix' => 'roles',
             'as' => 'roles.',
-            'middleware' => [],
+            'middleware' => [
+                "route_status:" . \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND,
+            ],
         ],
         RequestType::WEB->value => [
             'prefix' => 'roles',
             'as' => 'roles.',
-            'middleware' => [],
+            'middleware' => [
+                "route_status:" . \Symfony\Component\HttpFoundation\Response::HTTP_NOT_FOUND,
+            ],
         ],
         RequestType::ADMIN->value => [
             'prefix' => 'roles',
@@ -200,4 +204,5 @@ return [
 
         ],
     ],
+    'default_guard_name' => 'web',
 ];

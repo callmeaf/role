@@ -12,5 +12,5 @@ use Callmeaf\Role\App\Http\Resources\Api\V1\RoleResource;
  */
 interface RoleRepoInterface extends BaseRepoInterface
 {
-
+    public function syncPermissions(mixed $id,array $permissionsIds);
 }

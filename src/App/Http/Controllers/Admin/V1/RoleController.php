@@ -85,4 +85,9 @@ class RoleController extends AdminController implements HasMiddleware
     {
         return $this->roleRepo->forceDelete(id: $id);
     }
+
+    public function syncPermissions(string $id)
+    {
+        return $this->roleRepo->syncPermissions(id: $id,permissionsIds: $this->request->get('permissions_ids'));
+    }
 }

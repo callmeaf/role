@@ -2,6 +2,7 @@
 
 namespace Callmeaf\Role\App\Http\Resources\Admin\V1;
 
+use Callmeaf\Permission\App\Repo\Contracts\PermissionRepoInterface;
 use Callmeaf\Role\App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,6 +19,10 @@ class RoleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        /**
+         * @var PermissionRepoInterface $permissionRepo
+         */
+        $permissionRepo = app(PermissionRepoInterface::class);
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -26,6 +31,7 @@ class RoleResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
+            'permissions' => $permissionRepo->toResourceCollection($this->whenLoaded('permissions'))
         ];
     }
 }

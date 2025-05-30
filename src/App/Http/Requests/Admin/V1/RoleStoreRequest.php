@@ -26,6 +26,18 @@ class RoleStoreRequest extends FormRequest
         return [
             'name' => ['required','string','max:255',Rule::unique($roleRepo->getTable(),'name')],
             'name_fa' => ['required','string','max:255',Rule::unique($roleRepo->getTable(),'name_fa')],
+            'guard_name' => ['required','string'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        /**
+         * @var RoleRepoInterface $roleRepo
+         */
+        $roleRepo = app(RoleRepoInterface::class);
+        $this->merge([
+            'guard_name' => $roleRepo->config['default_guard_name'],
+        ]);
     }
 }
