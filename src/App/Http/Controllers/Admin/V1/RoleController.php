@@ -4,6 +4,7 @@ namespace Callmeaf\Role\App\Http\Controllers\Admin\V1;
 
 use Callmeaf\Base\App\Http\Controllers\Admin\V1\AdminController;
 use Callmeaf\Role\App\Repo\Contracts\RoleRepoInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -42,7 +43,7 @@ class RoleController extends AdminController implements HasMiddleware
      */
     public function show(string $id)
     {
-        return $this->roleRepo->findById(value: $id);
+        return $this->roleRepo->builder(fn(Builder $query) => $query->with(['permissions']))->findById(value: $id);
     }
 
     /**
