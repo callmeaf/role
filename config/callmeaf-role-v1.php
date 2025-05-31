@@ -160,7 +160,6 @@ return [
     'enums' => [
          'status' => \Callmeaf\Role\App\Enums\RoleStatus::class,
          'type' => \Callmeaf\Role\App\Enums\RoleType::class,
-        'name' => \Callmeaf\Role\App\Enums\RoleName::class,
     ],
      'exports' => [
         RequestType::API->value => [
